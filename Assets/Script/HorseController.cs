@@ -13,6 +13,7 @@ public class HorseController : MonoBehaviour
     private Rigidbody rigidbody;
     private const string moving = "Moving";
     private bool changeSpeedOneTime;
+    private float timer;
 
     void Start()
     {
@@ -24,17 +25,19 @@ public class HorseController : MonoBehaviour
 
     private void Update()
     {
-        if (transform.position.z / distanceMoved >= 1)
+        timer += Time.deltaTime;
+        if (timer >= 5f)
         {
-            distanceMoved += 100;
+            //distanceMoved += 100;
             StartingChangeSpeed();
+            timer = 0;
         }
 
         if (changeSpeed)
         {
             durationConvert += Time.deltaTime;
-            moveSpeed = Mathf.Lerp(moveSpeedModifier, speedRandom, durationConvert / 1f);
-            if (durationConvert >= 1f)
+            moveSpeed = Mathf.Lerp(moveSpeedModifier, speedRandom, durationConvert / 3f);
+            if (durationConvert >= 3f)
             {
                 durationConvert = 0;
                 changeSpeed = false;
@@ -53,11 +56,11 @@ public class HorseController : MonoBehaviour
         {
             if(speedRandom > moveSpeedModifier - 1 && speedRandom >= moveSpeedModifier)
             {
-                speedRandom = Random.Range(moveSpeedModifier - 1, moveSpeedModifier);
+                speedRandom = Random.Range(moveSpeedModifier - 2f, moveSpeedModifier);
             }
             else
             {
-                speedRandom = Random.Range(moveSpeedModifier + 1, moveSpeedModifier);
+                speedRandom = Random.Range(moveSpeedModifier + 2f, moveSpeedModifier);
             }
         }
     }
